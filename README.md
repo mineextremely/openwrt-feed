@@ -106,6 +106,11 @@ package manager on the device. Both are published from the Pages root.
 The private signing keys live only in this repository's Actions secrets
 (`KEY_BUILD`, `PRIVATE_KEY`); they are never committed.
 
+`fastfetch`, `luci-theme-aurora` and `luci-app-easytier` follow their upstream
+`latest` release. `twitch-drops-miner` is pinned to `v16.0_pre` because upstream
+also publishes desktop-only releases that do not contain OpenWrt packages;
+update its `release` field when a newer OpenWrt-enabled tag appears.
+
 ### Adding a package
 
 Append an entry to `feed-sources.json`:

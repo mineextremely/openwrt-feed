@@ -18,7 +18,7 @@
     {
       "name": "luci-theme-aurora",
       "repo": "mineextremely/luci-theme-aurora",
-      "release": "v1.4.1",
+      "release": "latest",
       "kind": "raw",
       "formats": ["opkg", "apk"],
       "arch": "all",
@@ -27,7 +27,7 @@
     {
       "name": "luci-app-easytier",
       "repo": "mineextremely/luci-app-easytier",
-      "release": "v2.7.0",
+      "release": "latest",
       "kind": "raw",
       "formats": ["opkg", "apk"],
       "arch": "filename",
