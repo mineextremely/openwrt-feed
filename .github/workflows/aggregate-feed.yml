@@ -87,6 +87,7 @@ jobs:
           mkdir -p stage/out
 
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -e ARCH -e FMT -e KEY_BUILD -e PRIVATE_KEY \
             -v "${PWD}/scripts/container-index.sh:/usr/local/bin/container-index.sh:ro" \
             -v "${PWD}/stage/packages:/packages:ro" \

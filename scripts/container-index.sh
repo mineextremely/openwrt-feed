@@ -40,6 +40,15 @@ cp /packages/* .
 if [ "$FMT" = "opkg" ]; then
   [ -s /tmp/key-build ] || { echo "KEY_BUILD is empty" >&2; exit 1; }
 
+  if command -v mkhash >/dev/null 2>&1; then
+    export MKHASH="$(command -v mkhash)"
+  elif [ -x /builder/scripts/mkhash ]; then
+    export MKHASH=/builder/scripts/mkhash
+  else
+    echo "mkhash not found in SDK" >&2
+    exit 1
+  fi
+
   /builder/scripts/ipkg-make-index.sh . > Packages.manifest 2>/tmp/ipkg.err || {
     cat /tmp/ipkg.err >&2
     exit 1
