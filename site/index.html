@@ -6,28 +6,39 @@
   <title>openwrt-feed</title>
   <style>
     :root { color-scheme: light dark; }
-    body { max-width: 760px; margin: 3rem auto; padding: 0 1.2rem;
+    body { max-width: 780px; margin: 3rem auto; padding: 0 1.2rem;
            font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
     h1 { margin-bottom: .2rem; }
+    h2 { margin-top: 2rem; }
     .muted { opacity: .7; }
-    pre { padding: .9rem; overflow-x: auto; border-radius: 8px;
-          background: #8881; }
+    pre { padding: .9rem; overflow-x: auto; border-radius: 8px; background: #8881; }
     code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid #8884; }
     a { color: #2f6feb; }
   </style>
 </head>
 <body>
   <h1>openwrt-feed</h1>
-  <p class="muted">Signed OpenWrt package feed for mineextremely packages.</p>
+  <p class="muted">Signed OpenWrt package feed for <code>mineextremely</code> packages.</p>
 
   <ul>
-    <li>24.10 (opkg) signing key:
-      <a href="key-build.pub">key-build.pub</a>,
+    <li>24.10 (opkg) key: <a href="key-build.pub">key-build.pub</a>,
       fingerprint <code>38cd9e6814e2e69d</code></li>
-    <li>25.12 (apk) signing key:
-      <a href="public-key.pem">public-key.pem</a></li>
+    <li>25.12 (apk) key: <a href="public-key.pem">public-key.pem</a></li>
     <li>Source: <a href="https://github.com/mineextremely/openwrt-feed">github.com/mineextremely/openwrt-feed</a></li>
   </ul>
+
+  <h2>Packages</h2>
+  <table>
+    <tr><th>Package</th><th>Version</th><th>Architectures</th></tr>
+    <tr><td><code>fastfetch</code></td><td>2.70.0-r1</td><td>aarch64_cortex-a53, aarch64_generic, x86_64</td></tr>
+    <tr><td><code>luci-theme-aurora</code></td><td>1.4.1-r20261031</td><td>all</td></tr>
+    <tr><td><code>luci-app-easytier</code></td><td>2.7.0-r1</td><td>all</td></tr>
+    <tr><td><code>luci-i18n-easytier-zh-cn</code></td><td>2.7.0</td><td>all</td></tr>
+    <tr><td><code>luci-app-twitchdropsminer</code></td><td>1.0.0-r1</td><td>aarch64_generic</td></tr>
+    <tr><td><code>twitch-drops-miner</code></td><td>16.0_pre-r1</td><td>aarch64_generic</td></tr>
+  </table>
 
   <h2>OpenWrt 24.10 (opkg)</h2>
   <pre><code>wget -O /tmp/openwrt-feed.pub https://mineextremely.github.io/openwrt-feed/key-build.pub
@@ -37,7 +48,7 @@ echo "src/gz openwrt-feed https://mineextremely.github.io/openwrt-feed/24.10/&lt
   &gt;&gt; /etc/opkg/customfeeds.conf
 
 opkg update
-opkg install fastfetch</code></pre>
+opkg install luci-theme-aurora luci-app-easytier</code></pre>
 
   <h2>OpenWrt 25.12 (apk)</h2>
   <pre><code>wget -O /etc/apk/keys/openwrt-feed.pem https://mineextremely.github.io/openwrt-feed/public-key.pem
@@ -46,8 +57,11 @@ echo "https://mineextremely.github.io/openwrt-feed/25.12/&lt;arch&gt;/packages.a
   &gt;&gt; /etc/apk/repositories.d/customfeeds.list
 
 apk update
-apk add fastfetch</code></pre>
+apk add luci-theme-aurora luci-app-easytier</code></pre>
 
-  <p class="muted">Architectures: aarch64_cortex-a53, aarch64_generic, x86_64.</p>
+  <p class="muted">
+    <code>&lt;arch&gt;</code>: aarch64_cortex-a53, aarch64_generic, x86_64.
+    Twitch packages are only built for aarch64_generic.
+  </p>
 </body>
 </html>
