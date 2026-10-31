@@ -110,8 +110,13 @@ def main() -> int:
             if arch_rule == "all":
                 take = True
             elif arch_rule == "filename":
-                detected = package_arch(path.name, fmt)
-                take = detected in (args.arch, "all")
+                # Use a filename substring instead of splitting on "_": target
+                # names such as aarch64_cortex-a53 themselves contain "_".
+                take = (
+                    args.arch in path.name
+                    or "_all." in path.name
+                    or "-all." in path.name
+                )
             else:
                 take = arch_rule == args.arch
 
