@@ -23,6 +23,11 @@ jobs:
           git remote add fastfetch https://github.com/mineextremely/Fastfetch4Openwrt.git
           git fetch --depth=1 fastfetch feed
 
+      - name: Stage landing page
+        run: |
+          mkdir -p /tmp/site
+          cp site/index.html /tmp/site/index.html
+
       - name: Replace gh-pages with upstream feed
         run: |
           git config user.name "github-actions[bot]"
@@ -31,6 +36,7 @@ jobs:
           git checkout --orphan mirror
           git rm -rf .
           git read-tree --reset -u fastfetch/feed
+          cp /tmp/site/index.html index.html
           git add -A
           git commit -m "mirror Fastfetch feed ($(git rev-parse --short fastfetch/feed))"
           git push --force origin HEAD:gh-pages

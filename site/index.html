@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>openwrt-feed</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { max-width: 760px; margin: 3rem auto; padding: 0 1.2rem;
+           font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    h1 { margin-bottom: .2rem; }
+    .muted { opacity: .7; }
+    pre { padding: .9rem; overflow-x: auto; border-radius: 8px;
+          background: #8881; }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    a { color: #2f6feb; }
+  </style>
+</head>
+<body>
+  <h1>openwrt-feed</h1>
+  <p class="muted">Signed OpenWrt package feed for mineextremely packages.</p>
+
+  <ul>
+    <li>24.10 (opkg) signing key:
+      <a href="key-build.pub">key-build.pub</a>,
+      fingerprint <code>38cd9e6814e2e69d</code></li>
+    <li>25.12 (apk) signing key:
+      <a href="public-key.pem">public-key.pem</a></li>
+    <li>Source: <a href="https://github.com/mineextremely/openwrt-feed">github.com/mineextremely/openwrt-feed</a></li>
+  </ul>
+
+  <h2>OpenWrt 24.10 (opkg)</h2>
+  <pre><code>wget -O /tmp/openwrt-feed.pub https://mineextremely.github.io/openwrt-feed/key-build.pub
+opkg-key add /tmp/openwrt-feed.pub
+
+echo "src/gz openwrt-feed https://mineextremely.github.io/openwrt-feed/24.10/&lt;arch&gt;" \
+  &gt;&gt; /etc/opkg/customfeeds.conf
+
+opkg update
+opkg install fastfetch</code></pre>
+
+  <h2>OpenWrt 25.12 (apk)</h2>
+  <pre><code>wget -O /etc/apk/keys/openwrt-feed.pem https://mineextremely.github.io/openwrt-feed/public-key.pem
+
+echo "https://mineextremely.github.io/openwrt-feed/25.12/&lt;arch&gt;/packages.adb" \
+  &gt;&gt; /etc/apk/repositories.d/customfeeds.list
+
+apk update
+apk add fastfetch</code></pre>
+
+  <p class="muted">Architectures: aarch64_cortex-a53, aarch64_generic, x86_64.</p>
+</body>
+</html>
