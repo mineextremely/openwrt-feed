@@ -23,7 +23,7 @@ if [ -n "${PRIVATE_KEY:-}" ]; then
   printf '%s' "$PRIVATE_KEY" > /tmp/private-key.pem
 fi
 
-WORK=/work
+WORK=/tmp/work
 OUT=/out
 rm -rf "$WORK"
 mkdir -p "$WORK" "$OUT"
