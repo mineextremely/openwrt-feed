@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "updated": "2026-10-31",
+  "targets": {
+    "opkg": "24.10",
+    "apk": "25.12"
+  },
+  "sources": [
+    {
+      "name": "fastfetch",
+      "repo": "mineextremely/Fastfetch4Openwrt",
+      "release": "latest",
+      "formats": ["opkg", "apk"],
+      "enabled": true
+    }
+  ],
+  "planned": [
+    "luci-theme-aurora",
+    "luci-app-easytier",
+    "twitch-drops-miner"
+  ]
+}

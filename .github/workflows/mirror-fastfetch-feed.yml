@@ -1,0 +1,36 @@
+name: Mirror Fastfetch feed
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror-fastfetch-feed
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch upstream feed
+        run: |
+          git remote add fastfetch https://github.com/mineextremely/Fastfetch4Openwrt.git
+          git fetch --depth=1 fastfetch feed
+
+      - name: Replace gh-pages with upstream feed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout --orphan mirror
+          git rm -rf .
+          git read-tree --reset -u fastfetch/feed
+          git add -A
+          git commit -m "mirror Fastfetch feed ($(git rev-parse --short fastfetch/feed))"
+          git push --force origin HEAD:gh-pages
