@@ -83,6 +83,7 @@ jobs:
             25.12.*) FMT=apk ;;
             *) echo "unsupported SDK ${SDK}" >&2; exit 1 ;;
           esac
+          export FMT
           mkdir -p stage/out
 
           docker run --rm \
