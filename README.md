@@ -14,6 +14,7 @@ Signed OpenWrt package feed for `mineextremely` packages.
 | `fastfetch` | 2.70.0-r1 | yes | yes | aarch64_cortex-a53, aarch64_generic, x86_64 |
 | `luci-theme-aurora` | 1.4.1-r20261031 | yes | yes | all |
 | `luci-app-easytier` | 2.7.0-r1 | yes | yes | all |
+| `easytier-noweb` | 2.7.0 | yes | yes | aarch64_cortex-a53, aarch64_generic, x86_64 |
 | `luci-i18n-easytier-zh-cn` | 2.7.0 | yes | yes | all |
 | `luci-app-twitchdropsminer` | 1.0.0-r1 | yes | yes | aarch64_generic |
 | `luci-i18n-twitchdropsminer-zh-cn` | 26.300.48515~3f55790 | yes | yes | aarch64_generic |
