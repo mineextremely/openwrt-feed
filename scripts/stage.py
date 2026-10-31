@@ -48,6 +48,19 @@ def apk_arch(name: str) -> str | None:
     return None
 
 
+# Release workflows sometimes append the target architecture to apk assets
+# (``name-version_aarch64_generic.apk``).  apk itself downloads
+# ``name-version.apk``, so strip that suffix when staging.
+APK_ARCH_SUFFIX = re.compile(
+    r"_(?:all|aarch64_[a-z0-9-]+|arm_[a-z0-9_-]+|x86_64|i386_[a-z0-9_-]+"
+    r"|mips[a-z0-9_-]*|riscv64_[a-z0-9_-]+|powerpc[a-z0-9_-]*)\.apk$"
+)
+
+
+def canonical_apk_name(name: str) -> str:
+    return APK_ARCH_SUFFIX.sub(".apk", name)
+
+
 def package_arch(name: str, fmt: str) -> str | None:
     return ipk_arch(name) if fmt == "opkg" else apk_arch(name)
 
@@ -99,8 +112,9 @@ def main() -> int:
                         name = Path(member).name
                         if not name.endswith(suffix):
                             continue
-                        (out / name).write_bytes(archive.read(member))
-                        copied[name] = path
+                        out_name = canonical_apk_name(name) if fmt == "apk" else name
+                        (out / out_name).write_bytes(archive.read(member))
+                        copied[out_name] = path
                 continue
 
             if path.suffix.lower() != suffix:
@@ -121,12 +135,13 @@ def main() -> int:
                 take = arch_rule == args.arch
 
             if take:
-                target = out / path.name
+                out_name = canonical_apk_name(path.name) if fmt == "apk" else path.name
+                target = out / out_name
                 if target.exists():
-                    print(f"[stage] duplicate {path.name}, keeping first", file=sys.stderr)
+                    print(f"[stage] duplicate {out_name}, keeping first", file=sys.stderr)
                     continue
                 shutil.copy2(path, target)
-                copied[path.name] = path
+                copied[out_name] = path
 
     print(f"[stage] {args.arch}-{args.sdk} ({fmt}): {len(copied)} packages")
     for name in sorted(copied):
