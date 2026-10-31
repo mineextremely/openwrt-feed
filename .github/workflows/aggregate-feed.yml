@@ -1,0 +1,154 @@
+name: Aggregate signed package feed
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [feed-update]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aggregate-feed
+  cancel-in-progress: false
+
+jobs:
+  index:
+    name: Index ${{ matrix.arch }}-${{ matrix.sdk }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - aarch64_cortex-a53
+          - aarch64_generic
+          - x86_64
+        sdk:
+          - 24.10.8
+          - 25.12.5
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p raw
+          python3 - <<'PY' > sources.tsv
+          import json
+
+          with open("feed-sources.json", encoding="utf-8") as fh:
+              data = json.load(fh)
+          for source in data["sources"]:
+              if source.get("enabled", True):
+                  print(source["name"], source["repo"], source.get("release", "latest"), sep="\t")
+          PY
+
+          while IFS=$'\t' read -r name repo release; do
+            mkdir -p "raw/${name}"
+            args=(--repo "${repo}" --dir "raw/${name}" --clobber)
+            if [ "${release}" != "latest" ]; then
+              args+=("${release}")
+            fi
+            echo "::group::${name} (${repo} ${release})"
+            gh release download "${args[@]}" \
+              --pattern '*.ipk' --pattern '*.apk' --pattern '*.zip' || true
+            find "raw/${name}" -maxdepth 1 -type f -printf '  %f\n' | sort
+            echo "::endgroup::"
+          done < sources.tsv
+
+      - name: Stage packages for target
+        run: |
+          set -euo pipefail
+          python3 scripts/stage.py \
+            --arch "${{ matrix.arch }}" \
+            --sdk "${{ matrix.sdk }}" \
+            --raw raw \
+            --out stage
+
+      - name: Build signed index
+        env:
+          ARCH: ${{ matrix.arch }}
+          SDK: ${{ matrix.sdk }}
+          KEY_BUILD: ${{ secrets.KEY_BUILD }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          case "${SDK}" in
+            24.10.*) FMT=opkg ;;
+            25.12.*) FMT=apk ;;
+            *) echo "unsupported SDK ${SDK}" >&2; exit 1 ;;
+          esac
+          mkdir -p stage/out
+
+          docker run --rm \
+            -e ARCH -e FMT -e KEY_BUILD -e PRIVATE_KEY \
+            -v "${PWD}/scripts/container-index.sh:/usr/local/bin/container-index.sh:ro" \
+            -v "${PWD}/stage/packages:/packages:ro" \
+            -v "${PWD}/stage/out:/out" \
+            "ghcr.io/openwrt/sdk:${ARCH}-${SDK}" \
+            bash /usr/local/bin/container-index.sh
+
+      - name: Upload feed target
+        uses: actions/upload-artifact@v6
+        with:
+          name: feed-${{ matrix.arch }}--${{ matrix.sdk }}
+          path: stage/out
+          if-no-files-found: error
+
+  publish:
+    name: Publish gh-pages
+    needs: index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download indexed targets
+        uses: actions/download-artifact@v6
+        with:
+          pattern: feed-*
+          path: ${{ runner.temp }}/feed-out
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          SITE="${RUNNER_TEMP}/site-out"
+          rm -rf "${SITE}"
+          mkdir -p "${SITE}"
+          cp site/index.html "${SITE}/index.html"
+          cp keys/key-build.pub keys/public-key.pem "${SITE}/"
+          touch "${SITE}/.nojekyll"
+
+          for dir in "${RUNNER_TEMP}"/feed-out/*; do
+            [ -d "${dir}" ] || continue
+            name="$(basename "${dir}")"
+            rest="${name#feed-}"
+            arch="${rest%%--*}"
+            sdk="${rest##*--}"
+            case "${sdk}" in
+              24.10.*) series=24.10 ;;
+              25.12.*) series=25.12 ;;
+              *) echo "unsupported SDK ${sdk}" >&2; exit 1 ;;
+            esac
+            mkdir -p "${SITE}/${series}/${arch}"
+            cp -a "${dir}/." "${SITE}/${series}/${arch}/"
+          done
+
+          find "${SITE}" -maxdepth 4 -type f | sort
+
+      - name: Publish gh-pages
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout --orphan feed-site
+          git rm -rf .
+          cp -a "${RUNNER_TEMP}/site-out/." .
+          git add -A
+          git commit -m "aggregate OpenWrt feed ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push --force origin HEAD:gh-pages

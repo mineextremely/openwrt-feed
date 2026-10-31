@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "updated": "2026-10-31",
   "targets": {
     "opkg": "24.10",
@@ -10,13 +10,37 @@
       "name": "fastfetch",
       "repo": "mineextremely/Fastfetch4Openwrt",
       "release": "latest",
+      "kind": "zip",
       "formats": ["opkg", "apk"],
+      "arch": "filename",
+      "enabled": true
+    },
+    {
+      "name": "luci-theme-aurora",
+      "repo": "mineextremely/luci-theme-aurora",
+      "release": "v1.4.1",
+      "kind": "raw",
+      "formats": ["opkg", "apk"],
+      "arch": "all",
+      "enabled": true
+    },
+    {
+      "name": "luci-app-easytier",
+      "repo": "mineextremely/luci-app-easytier",
+      "release": "v2.7.0",
+      "kind": "raw",
+      "formats": ["opkg", "apk"],
+      "arch": "filename",
+      "enabled": true
+    },
+    {
+      "name": "twitch-drops-miner",
+      "repo": "mineextremely/TwitchDropsMiner",
+      "release": "v16.0_pre",
+      "kind": "raw",
+      "formats": ["opkg", "apk"],
+      "arch": "aarch64_generic",
       "enabled": true
     }
-  ],
-  "planned": [
-    "luci-theme-aurora",
-    "luci-app-easytier",
-    "twitch-drops-miner"
   ]
 }
