@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "architecture": "x86_64",
+  "packages": {
+    "easytier-noweb": "2.7.0",
+    "fastfetch": "2.71.0-r1",
+    "luci-app-easytier": "2.7.0-r1",
+    "luci-i18n-easytier-zh-cn": "2.7.0",
+    "luci-theme-aurora": "1.4.1-r20261031"
+  }
+}
