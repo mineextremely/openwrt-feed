@@ -1,0 +1,133 @@
+Package: easytier-noweb
+Version: 2.7.0
+Depends: libc, kmod-tun
+Source: /feed/easytier-noweb
+SourceName: easytier-noweb
+Section: net
+SourceDateEpoch: 1791961860
+URL: https://github.com/EasyTier/EasyTier
+Architecture: aarch64_generic
+Installed-Size: 7168000
+Filename: easytier-noweb_2.7.0_aarch64_generic.ipk
+Size: 7161029
+SHA256sum: 53318e43ac292f291fed5aa76d6f58016969fd429cdd970539175b4c85d178d4
+Description:  A simple, decentralized mesh VPN with WireGuard support.
+
+Package: fastfetch
+Version: 2.71.0-r1
+Depends: libc
+Source: /feed/fastfetch
+SourceName: fastfetch
+License: MIT
+LicenseFiles: LICENSE
+Section: utils
+SourceDateEpoch: 1793944179
+URL: https://github.com/fastfetch-cli/fastfetch
+Maintainer: Nova
+Architecture: aarch64_generic
+Installed-Size: 1413120
+Filename: fastfetch_2.71.0-r1_aarch64_generic.ipk
+Size: 489606
+SHA256sum: ad8de3373c785214cad5b7420e395e04f1e4dbe30561e6933a8768e2712ab6db
+Description:  Fastfetch is a fast neofetch-like system information tool.
+
+Package: luci-app-easytier
+Version: 2.7.0-r1
+Depends: libc, kmod-tun, luci-compat, luci-lua-runtime
+Source: /feed/luci-app-easytier
+SourceName: luci-app-easytier
+Section: luci
+SourceDateEpoch: 1791961860
+URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
+Architecture: all
+Installed-Size: 368640
+Filename: luci-app-easytier_2.7.0-r1_all.ipk
+Size: 79866
+SHA256sum: c1a28b6ffa52138e9b8feefc508c1190f18d3107fdc8c3bdc66af2665c062379
+Description:  LuCI support for EasyTier
+
+Package: luci-app-twitchdropsminer
+Version: 1.0.0-r1
+Depends: libc, luci-base, twitch-drops-miner
+Source: /feed/luci-app-twitchdropsminer
+SourceName: luci-app-twitchdropsminer
+License: Apache-2.0
+Section: luci
+SourceDateEpoch: 1793107715
+URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
+Architecture: all
+Installed-Size: 40960
+Filename: luci-app-twitchdropsminer_1.0.0-r1_all.ipk
+Size: 8926
+SHA256sum: 2f690bd4c6a9906b31765c9d5363c384836366621c8953696ce49474278c4bbe
+Description:  LuCI support for the Twitch Drops Miner
+
+Package: luci-i18n-easytier-zh-cn
+Version: 2.7.0
+Depends: libc, luci-app-easytier
+Source: /feed/luci-app-easytier
+SourceName: luci-app-easytier
+Section: luci
+SourceDateEpoch: 1791961860
+Architecture: all
+Installed-Size: 51200
+Filename: luci-i18n-easytier-zh-cn_2.7.0_all.ipk
+Size: 17234
+SHA256sum: 461df531b521f5b4b3c6a87f72ab67c2a1208eb7b479e048743262f5fac5daed
+Description:  Translation for luci-app-easytier - 简体中文 (Simplified Chinese)
+
+Package: luci-i18n-twitchdropsminer-zh-cn
+Version: 26.300.48515~3f55790
+Depends: libc, luci-app-twitchdropsminer
+Source: /feed/luci-app-twitchdropsminer
+SourceName: luci-app-twitchdropsminer
+License: Apache-2.0
+Section: luci
+SourceDateEpoch: 1793107715
+Maintainer: mineextremely
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-twitchdropsminer-zh-cn_26.300.48515.3f55790_all.ipk
+Size: 4503
+SHA256sum: 519cdb9ca25bd473c202ead0394234b7f5c72d06be462af11e1dd60bb8f596ac
+Description:  Translation for luci-app-twitchdropsminer - 简体中文 (Simplified Chinese)
+
+Package: luci-theme-aurora
+Version: 1.4.1-r20261031
+Depends: libc, luci-base
+Source: /work/feed/luci-theme-aurora
+SourceName: luci-theme-aurora
+License: Apache-2.0
+Section: luci
+SourceDateEpoch: 1793436877
+URL: https://github.com/openwrt/luci
+Maintainer: OpenWrt LuCI community
+Architecture: all
+Installed-Size: 471040
+Filename: luci-theme-aurora_1.4.1-r20261031_all.ipk
+Size: 184244
+SHA256sum: b1d84e658b8fe188da416d449eaeca895ac846f7d940875e61592b52b1a2b424
+Description:  Aurora Theme (A modern browser theme built with Vite and Tailwind CSS)
+
+Package: twitch-drops-miner
+Version: 16.0_pre-r1
+Depends: libc, python3
+Source: /feed/twitch-drops-miner
+SourceName: twitch-drops-miner
+License: GPL-3.0-only
+LicenseFiles: LICENSE
+Section: utils
+SourceDateEpoch: 1793107799
+URL: https://github.com/mineextremely/TwitchDropsMiner
+Maintainer: mineextremely
+Architecture: aarch64_generic
+Installed-Size: 4075520
+Filename: twitch-drops-miner_16.0_pre-r1_aarch64_generic.ipk
+Size: 1029066
+SHA256sum: 925aa5b0a1186ff9e84a8610aaa07a171197552ef5342b242361afc03ff87f67
+Description:  An application that mines timed Twitch drops in the background,
+ without downloading any stream data. This is a headless port for
+ OpenWrt - no display server or Tkinter is required.
+

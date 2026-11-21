@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "architecture": "aarch64_generic",
+  "packages": {
+    "easytier-noweb": "2.7.0",
+    "fastfetch": "2.71.0-r1",
+    "luci-app-easytier": "2.7.0-r1",
+    "luci-app-twitchdropsminer": "1.0.0-r1",
+    "luci-i18n-easytier-zh-cn": "2.7.0",
+    "luci-i18n-twitchdropsminer-zh-cn": "26.300.48515~3f55790",
+    "luci-theme-aurora": "1.4.1-r20261031",
+    "twitch-drops-miner": "16.0_pre-r1"
+  }
+}
